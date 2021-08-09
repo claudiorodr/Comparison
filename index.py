@@ -20,7 +20,7 @@ mag_data /= 1000
 
 # algorithms = [AngularRate, AQUA, Complementary, Davenport, EKF, FAMC, FLAE, Fourati, FQA, Madgwick, Mahony, OLEQ, QUEST, ROLEQ, SAAM, Tilt]
 
-algorithms = [Madgwick]
+algorithms = [Mahony]
 
 for algorithm in algorithms:
     for frequency in range(1, 2):
@@ -64,8 +64,8 @@ for algorithm in algorithms:
         x, y, z = [], [], []
 
         for position in positions:
-            x.append(-position[0])
-            y.append(-position[1])
+            x.append(position[0])
+            y.append(position[1])
             z.append(position[2] / 30)
 
         # GROUND TRUTH - Square, triangle, spiral, etc.
@@ -76,8 +76,8 @@ for algorithm in algorithms:
 
         # PLOTS
         # 2D PLOTTING
-        plt.plot(x, y)
-        plt.plot(ground_truth[0],ground_truth[1])
+        plt.scatter(x, y)
+        # plt.plot(ground_truth[0],ground_truth[1])
         plt.suptitle('Madgwick AHRS')
         plt.show()
         # plt.savefig('figuresMadgwick/figure' + str(frequency))
