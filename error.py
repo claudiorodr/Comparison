@@ -16,8 +16,8 @@ def calculate(ground_truth_x, ground_truth_y, estimated_x, estimated_y):
             total_points.append((points[i+1][j],points[0][j]))
             xs.append(points[0][j])
             ys.append(points[i+1][j])
-    plt.scatter(xs,ys)
-    plt.scatter(ys,xs)
+    # plt.scatter(xs,ys)
+    # plt.scatter(ys,xs)
     # Create a Shapely LineString from totality of Ground truth points
     ground_truth = geom.LineString(total_points)
 
@@ -29,4 +29,4 @@ def calculate(ground_truth_x, ground_truth_y, estimated_x, estimated_y):
         # Calculate the distance from the estimated sample point to ground truth
         closest_distance = estimated_point.distance(ground_truth)
         closest_point = ground_truth.interpolate(ground_truth.project(estimated_point))
-        plt.plot([estimated_point.x, closest_point.x], [estimated_point.y, closest_point.y])
+        # plt.plot([estimated_point.x, closest_point.x], [estimated_point.y, closest_point.y])
