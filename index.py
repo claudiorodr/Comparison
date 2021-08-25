@@ -8,6 +8,7 @@ import integrations
 import numpy as np
 import math
 import error
+import turn
 
 # Read data from files
 data = np.loadtxt("data.txt")
@@ -23,7 +24,7 @@ mag_data /= 1000
 algorithms = [Madgwick]
 
 for algorithm in algorithms:
-    for frequency in range(1, 2):
+    for frequency in range(1, 21):
         # Saving ahrs estimations to array
         estimation = []
 
@@ -64,33 +65,45 @@ for algorithm in algorithms:
         x, y, z = [], [], []
 
         for position in positions:
-            x.append(-position[0])
+            x.append(position[0])
             y.append(-position[1])
             z.append(position[2] / 30)
 
+        # Calculate turning point
+
+        # trajectory_points = turn.trajectory(x,y)
+        # print(trajectory_points)
+        # x_trajectory, y_trajectory = [],[]
+        # for point in trajectory_points:
+        #     x_trajectory.append(point[0])
+        #     y_trajectory.append(point[1])
+
         # GROUND TRUTH - Square, triangle, spiral, etc.
-        # ground_truth = [[0, 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0], [ 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0, 0]]
-        ground_truth = [[0, 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0], [ 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0, 0], [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        ground_truth = [[0, 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0], [ 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0, 0], [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] #Spiral
+        # ground_truth = [[0, 0, 5, 5, 0], [ 0, 5, 5, 0, 0], [ 0, 0, 0, 0, 0]] #Square
+        # ground_truth = [[0, 0, 5, 0], [ 0, 5, 0, 0], [ 0, 0, 0, 0]] #Triangle
         
 
         # ERROR MEASUREMENT (Ground truth, Estimated position)
-        error.calculate(ground_truth[0],ground_truth[1], x, y)
+        experiment_error = error.calculate(ground_truth[0],ground_truth[1], x, y)
 
-        # # PLOTS
-        # # 2D PLOTTING
-        # plt.scatter(x, y)
-        # # plt.plot(ground_truth[0],ground_truth[1])
-        # plt.suptitle('Madgwick AHRS')
-        # plt.show()
-        # # plt.savefig('figuresMadgwick/figure' + str(frequency))
-
-        # 3D PLOTTING
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection="3d")
-        ax.scatter(x, y, z)
-        ax.plot(ground_truth[0],ground_truth[1],ground_truth[2])
+        # PLOTS
+        # 2D PLOTTING
+        plt.scatter(x, y)
+        # plt.scatter(x_trajectory,y_trajectory, s=30, c='m')
+        plt.plot(ground_truth[0],ground_truth[1])
+        plt.suptitle(str(experiment_error))
         plt.show()
         # plt.savefig('figuresMadgwick/figure' + str(frequency))
+        plt.clf()
+
+        # # 3D PLOTTING
+        # fig = plt.figure()
+        # ax = fig.add_subplot(111, projection="3d")
+        # ax.scatter(x, y, z)
+        # ax.plot(ground_truth[0],ground_truth[1],ground_truth[2])
+        # plt.show()
+        # # plt.savefig('figuresMadgwick/figure' + str(frequency))
 
         # # 2D VIDEO PLOTTING
         # fig = plt.figure()
