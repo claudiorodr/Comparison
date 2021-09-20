@@ -16,8 +16,8 @@ def calculate(ground_truth_x, ground_truth_y, estimated_x, estimated_y):
             total_points.append((points[i+1][j],points[0][j]))
             xs.append(points[0][j])
             ys.append(points[i+1][j])
-    plt.scatter(xs,ys)
-    plt.scatter(ys,xs)
+    # plt.scatter(xs,ys)
+    # plt.scatter(ys,xs)
 
     # Create a Shapely LineString from totality of Ground truth points
     # ground_truth = geom.LineString(total_points)
@@ -35,7 +35,7 @@ def calculate(ground_truth_x, ground_truth_y, estimated_x, estimated_y):
         closest_distances.append(closest_distance)
         # closest_point = ground_truth.interpolate(ground_truth.project(estimated_point))
         closest_point = nearest_points(ground_truth, estimated_point)[0]
-        plt.plot([estimated_point.x, closest_point.x], [estimated_point.y, closest_point.y])
+        # plt.plot([estimated_point.x, closest_point.x], [estimated_point.y, closest_point.y])
     return np.average(closest_distances)
 
 def calculate_turn(ground_truth_x, ground_truth_y, estimated_x, estimated_y):
@@ -45,7 +45,6 @@ def calculate_turn(ground_truth_x, ground_truth_y, estimated_x, estimated_y):
     # Save all points into an array of (x,y)
     for index, distance in enumerate(ground_truth_x):
         total_points.append((ground_truth_x[index],ground_truth_y[index]))
-    plt.scatter(ground_truth_x,ground_truth_y)
 
     # Create a Shapely LineString from totality of Ground truth points
     # ground_truth = geom.LineString(total_points)
@@ -63,7 +62,7 @@ def calculate_turn(ground_truth_x, ground_truth_y, estimated_x, estimated_y):
         closest_distances.append(closest_distance)
         # closest_point = ground_truth.interpolate(ground_truth.project(estimated_point))
         closest_point = nearest_points(ground_truth, estimated_point)[0]
-        plt.plot([estimated_point.x, closest_point.x], [estimated_point.y, closest_point.y])
+        # plt.plot([estimated_point.x, closest_point.x], [estimated_point.y, closest_point.y])
     return np.average(closest_distances)
 
 def calculate3D(ground_truth_x, ground_truth_y, ground_truth_z, estimated_x, estimated_y, estimated_z):

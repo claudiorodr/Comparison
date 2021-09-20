@@ -6,28 +6,24 @@ import error
 
 def plot2D(ground_truth_x, ground_truth_y, estimated_x, estimated_y, turn_x, turn_y):
     """Plots Ground Truth and Estimated Position in 2D"""
-    # ERROR MEASUREMENT (Ground truth, Estimated position)
-    experiment_error = error.calculate(ground_truth_x,ground_truth_y, estimated_x, estimated_y)
     plt.scatter(estimated_x, estimated_y)
-    plt.scatter(turn_x, turn_y, s=30, c='r')
+    # plt.scatter(turn_x, turn_y, s=30, c='r')
     plt.plot(ground_truth_x, ground_truth_y)
     # plt.suptitle(str(turn_error) + ' ' + str(experiment_error))
     plt.show()
     # plt.savefig('figuresMadgwick/figure' + str(frequency))
     plt.clf()
 
-def plot3D():
+def plot3D(ground_truth_x, ground_truth_y, ground_truth_z, estimated_x, estimated_y, estimated_z, turn_x, turn_y):
     """Plots Ground Truth and Estimated Position in 3D"""
-    # ERROR MEASUREMENT (Ground truth, Estimated position)
-    experiment_error = error.calculate3D(ground_truth_x,ground_truth_y,ground_truth[2], x, y, z)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
-    ax.scatter(x, y, z)
-    ax.plot(ground_truth_x,ground_truth_y,ground_truth[2])
+    ax.scatter(estimated_x, estimated_y, estimated_z)
+    ax.plot(ground_truth_x,ground_truth_y,ground_truth_z)
     plt.show()
     # plt.savefig('figuresMadgwick/figure' + str(frequency))
 
-def video2D():
+def video2D(x, y):
     # 2D VIDEO PLOTTING
     fig = plt.figure()
     # creating a subplot
@@ -45,7 +41,7 @@ def video2D():
     plt.show()
     # ani.save('2Dplot.gif')
 
-def video3D():
+def video3D(x, y, z):
     # 3D VIDEO PLOTTING
     fig = plt.figure()
     # creating a subplot

@@ -6,6 +6,7 @@ import math
 import error
 import turn
 import plotting
+import matplotlib.pyplot as plt
 
 # Read data from files
 data = np.loadtxt("data.txt")
@@ -19,9 +20,9 @@ mag_data /= 1000
 # algorithms = [AngularRate, AQUA, Complementary, Davenport, EKF, FAMC, FLAE, Fourati, FQA, Madgwick, Mahony, OLEQ, QUEST, ROLEQ, SAAM, Tilt]
 
 algorithms = [Mahony]
-
+sample_error = []
 for algorithm in algorithms:
-    for frequency in range(1, 21):
+    for frequency in np.arange(1, 2.0, 1):
         # Saving ahrs estimations to array
         estimation = []
 
@@ -75,12 +76,27 @@ for algorithm in algorithms:
             y_trajectory.append(point[1])
 
         # GROUND TRUTH - Square, triangle, spiral, etc.
-        ground_truth = [[0, 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0], [ 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0, 0], [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] # Spiral
-        # ground_truth = [[0, 0, 5, 5, 0], [ 0, 5, 5, 0, 0], [ 0, 0, 0, 0, 0]] # Square
-        # ground_truth = [[0, 0, 5, 0], [ 0, 5, 0, 0], [ 0, 0, 0, 0]] # Triangle
+        ground_truth = [[0, 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0], [ 0, 4, 4, 0, 0, 8, 8, 0, 0, 12, 12, 0, 0, 16, 16, 0, 0, 20, 20, 0, 0, 24, 24, 0, 0, 28, 28, 0, 0], [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] # Squares
+        # ground_truth = [[0, 0, 28, 28, 0], [ 0, 28, 28, 0, 0], [ 0, 0, 0, 0, 0]] # Square
+        # ground_truth = [[0, 0, 28, 0], [ 0, 28, 0, 0], [ 0, 0, 0, 0]] # Triangle
+        # ground_truth = [[0, 28], [0, 0], [0, 0]] # Line
 
+        # Error measurement for every point
+        # experiment_error = error.calculate(ground_truth[0],ground_truth[1], x, y)
 
-        # ERROR MEASUREMENT (Ground truth, Estimated position)
+        # Error measurement for every corner
         # turn_error = error.calculate_turn(ground_truth[0],ground_truth[1], x_trajectory, y_trajectory)
-        
+
+        # sample_error.append({'Frequency' : frequency, 'Experiment Error' : experiment_error, 'Turn Error' : turn_error})
+
+        # PLOTTING
         plotting.plot2D(ground_truth[0],ground_truth[1], x, y, x_trajectory, y_trajectory)
+        # plotting.video2D(x, y)
+        # plotting.plot3D(ground_truth[0],ground_truth[1], ground_truth[2], x, y, z, x_trajectory, y_trajectory)
+        # plotting.video3D(x, y, z)
+
+# plt.plot( [frequency['Frequency'] for frequency in sample_error],  [error['Experiment Error'] for error in sample_error])
+# plt.plot( [frequency['Frequency'] for frequency in sample_error],  [error['Turn Error'] for error in sample_error])
+# plt.xlabel('Sample frequency (Hz)')
+# plt.ylabel('Average error (m)')
+# plt.show()
